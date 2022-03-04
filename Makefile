@@ -1,3 +1,5 @@
+DOCKER ?= podman
+
 clean:
 	rm -f ./metrics
 build:
@@ -9,4 +11,4 @@ download:
 lint:
 	./bin/golangci-lint run --fix
 docker-build:
-	podman build --rm -t ghcr.io/rtdev7690/smartplugs:latest . && podman push ghcr.io/rtdev7690/smartplugs:latest
+	$(DOCKER) build --rm -t ghcr.io/rtdev7690/smartplugs:latest . && $(DOCKER) push ghcr.io/rtdev7690/smartplugs:latest

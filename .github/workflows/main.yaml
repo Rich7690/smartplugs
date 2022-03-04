@@ -4,17 +4,17 @@ on: [push]
 env:
   REGISTRY_USER: ${{ github.actor }}
   REGISTRY_PASSWORD: ${{ github.token }}
-  IMAGE_REGISTRY: ghcr.io/${{ github.repository_owner }}
+  DOCKER: docker
 
 jobs:
   Build-And-Push-Container:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Log in to ghcr.io
         run: |
-          /usr/bin/podman login ghcr.io/rtdev7690 -u ${{ env.REGISTRY_USER }} -p ${{ env.REGISTRY_PASSWORD }}
+          docker login ghcr.io/rtdev7690 -u ${{ env.REGISTRY_USER }} -p ${{ env.REGISTRY_PASSWORD }}
       - name: Build and push container
         run: |
           make docker-build
