@@ -1,4 +1,4 @@
-# HS1XXPlug 
+# Smartplugs
 
 TP-Link has a set of interesting WiFi smart plugs -- the [HS100](http://www.tp-link.com/en/products/details/HS100.html) which provides remote access and control for a power plug, and [HS110](http://www.tp-link.com/en/products/details/cat-5258_HS110.html) which is essentially HS100 but with energy monitoring.
 
@@ -8,53 +8,18 @@ https://www.softscheck.com/en/reverse-engineering-tp-link-hs110/
 https://georgovassilis.blogspot.sg/2016/05/controlling-tp-link-hs100-wi-fi-smart.html
 
 
-`hs1xxplug` is a Go library for accessing these smart plugs, based on the information available above. I have tested them out with a HS110 only and it works perfectly fine. An example of how to use this library is:
+This application is packaged as a container you can run via docker, kubernetes, or anything else that accepts these kinds of containers:
 
-```go
-package main
+`docker pull ghcr.io/rtdev7690/smartplugs:latest`
 
-import (
-	"fmt"
-	"github.com/sausheong/hs1xxplug"
-)
+Set environment variables to your smart plugs and the application will periodically pull energy data from them and export in prometheus format:
 
-func main() {
-	plug := hs1xxplug.Hs1xxPlug{IPAddress: "192.168.0.196"}
-	results, err := plug.MeterInfo()
-	if err != nil {
-		fmt.Println("err:", err)
-	}
-	fmt.Println(results)
+`IP_ADDR=192.168.6.3:192.168.6.2`
 
-}
-```
+Set the port for the web service to listen on:
 
-The results printed (after cleaning up):
+`PORT=9091` 
 
 
-```javascript
-{
-	"emeter": {
-		"get_realtime": {
-			"current": 0.015135,
-			"voltage": 296.213416,
-			"power": 1.193017,
-			"total": 0.061,
-			"err_code": 0
-		},
-		"get_vgain_igain": {
-			"vgain": 16566,
-			"igain": 13042,
-			"err_code": 0
-		}
-	}
-}
-```
+Currently the polling happens every 10 seconds in an attempt to not brown out the smart plugs as they seem to be very unreliable. This will probably be configurable soon.
 
-Functions include:
-
-- TurnOn() -- turning on the power on the plug
-- TurnOff() -- turning off the power on the plug
-- SystemInfo() -- getting information on the plug
-- MeterInfo() -- metering info on the plug, including the current, voltage, power and the total power consumption till date, as well as the vgain and igain
-- DailyStats(month, year) -- energy consumed per day for the given month and year
