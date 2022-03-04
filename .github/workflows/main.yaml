@@ -13,11 +13,8 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
       - name: Log in to ghcr.io
-        uses: redhat-actions/podman-login@v1
-        with:
-          username: ${{ env.REGISTRY_USER }}
-          password: ${{ env.REGISTRY_PASSWORD }}
-          registry: ${{ env.IMAGE_REGISTRY }}
+        run: |
+          /usr/bin/podman login ghcr.io/rtdev7690 -u ${{ env.REGISTRY_USER }} -p ${{ env.REGISTRY_PASSWORD }}
       - name: Build and push container
         run: |
           make docker-build
