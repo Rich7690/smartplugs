@@ -11,4 +11,4 @@ download:
 lint:
 	./bin/golangci-lint run --fix
 docker-build:
-	$(DOCKER) build --rm -t ghcr.io/rtdev7690/smartplugs:latest . && $(DOCKER) push ghcr.io/rtdev7690/smartplugs:latest
+	$(DOCKER) build --rm -t ghcr.io/rich7690/smartplugs:latest . && $(DOCKER) push ghcr.io/rich7690/smartplugs:latest

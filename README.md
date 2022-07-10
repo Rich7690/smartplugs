@@ -10,7 +10,7 @@ https://georgovassilis.blogspot.sg/2016/05/controlling-tp-link-hs100-wi-fi-smart
 
 This application is packaged as a container you can run via docker, kubernetes, or anything else that accepts these kinds of containers:
 
-`docker pull ghcr.io/rtdev7690/smartplugs:latest`
+`docker pull ghcr.io/rich7690/smartplugs:latest`
 
 Set environment variables to your smart plugs and the application will periodically pull energy data from them and export in prometheus format:
 
